@@ -8,7 +8,7 @@ GlobalChatManager is a very configurable chat management plugin with the goal of
 
 ##DEPENDENCIES
 - [PermissionsEX:](https://dev.bukkit.org/bukkit-plugins/permissionsex/) *PermissionsEX is a hardcore permission system used by many servers.*
-- [Essentials:](https://dev.bukkit.org/bukkit-plugins/permissionsex/) *Essentials is one of the most used, most loved and most essential bukkit plugins.*
+- [Essentials:](https://hub.spigotmc.org/jenkins/job/Spigot-Essentials/) *Essentials is one of the most used, most loved and most essential bukkit plugins.*
 
 ##Commands
 The main command of GlobalChatManager is `/gcm`
