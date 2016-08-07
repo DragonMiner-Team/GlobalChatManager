@@ -11,22 +11,22 @@ GlobalChatManager is a very configurable chat management plugin with the goal of
 - Essentials: *Essentials is one of the most used, most loved and most essential bukkit plugins.*
 
 **Commands**
-The main command of GlobalChatManager is ´/gcm´
+The main command of GlobalChatManager is `/gcm`
 The syntax is as following:
 
-- ´/gcm list´ *Shows a list of all currently loaded chat rooms.*
-- ´/gcm censor´ *Toggles chat censoring for the command sender.*
-- ´/gcm me´ *Shows a list of your player name in different forms.*
-- ´/gcm players´ *Changes options for chat rooms* (Requires permission *gcm.players*)
-- ´/gcm players hasPerms <Player> <ChatRoom>´ *Returns true if player has permissions for said chat room.*
-- ´/gcm players add <Player> <ChatRoom>´ *Gives player access to a specified Chat Room.* (Requires permission *gcm.players.add*)
-- ´/gcm players remove <Player> <ChatRoom>´ *Forbids player from using a specified Chat Room.* (Requires permission *gcm.players.remove*)
-- ´/gcm <ChatRoom>´ *Toggles chatting in a specific chat room.*
-- ´/gcm <ChatRoom> <Message>´ *Sends a message in specified chat room.*
+- `/gcm list` *Shows a list of all currently loaded chat rooms.*
+- `/gcm censor` *Toggles chat censoring for the command sender.*
+- `/gcm me` *Shows a list of your player name in different forms.*
+- `/gcm players` *Changes options for chat rooms* (Requires permission *gcm.players*)
+- `/gcm players hasPerms <Player> <ChatRoom>` *Returns true if player has permissions for said chat room.*
+- `/gcm players add <Player> <ChatRoom>` *Gives player access to a specified Chat Room.* (Requires permission *gcm.players.add*)
+- `/gcm players remove <Player> <ChatRoom>` *Forbids player from using a specified Chat Room.* (Requires permission *gcm.players.remove*)
+- `/gcm <ChatRoom>` *Toggles chatting in a specific chat room.*
+- `/gcm <ChatRoom> <Message>` *Sends a message in specified chat room.*
 
 
 **Default Configuration**
-´´´
+```
 \#This should always stay as false.
 resetconfig: false
 
@@ -62,4 +62,4 @@ developer:
     \-
     \#This is how the chat room will be formatted, %player% will output the players name, %nickname% will output their \#essentials nickname, %prefix% will output their PermissionsEX prefix and %suffix% will output their suffix.
     formatting: '&6[%prefix% &eD %player%&6] &8<&c%message%&8>'
-´´´
+```
