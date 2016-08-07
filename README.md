@@ -31,35 +31,35 @@ The syntax is as following:
 resetconfig: false
 
 censor:
-    \#This is the message that will send in chat when toggling chat censoring.
+    #This is the message that will send in chat when toggling chat censoring.
     message: '&bChat Censoring is %bool% &bactive.'
-    \#This message will only send when activating chat censoring.
+    #This message will only send when activating chat censoring.
     disclaimer: '&7Note: Chat Censoring is not perfect and we cannot guarantee all words will be correctly censored.'
-    \#These are the words that will be censored.
+    #These are the words that will be censored.
     words:
-    \- 'fuck'
-    \- 'shit'
-    \- 'hell'
-    \- '...'
+    - 'fuck'
+    - 'shit'
+    - 'hell'
+    - '...'
 
 chat:
-    \#This is how the chat will be formatted, %player% will output the players name, %nickname% will output their essentials \#nickname, %prefix% will output their PermissionsEX prefix and %suffix% will output their suffix.
+    #This is how the chat will be formatted, %player% will output the players name, %nickname% will output their essentials #nickname, %prefix% will output their PermissionsEX prefix and %suffix% will output their suffix.
     formatting: '&f<%prefix% &b%nickname% &f%suffix%&f> %message%'
 
 
-\#THESE ARE THE DEFAULT CHAT ROOMS
+#THESE ARE THE DEFAULT CHAT ROOMS
 
 builder:
-    \#These are the players that will be allowed to use the chat room, these can be changed in game using "/gcm players add" \#and "/gcm players remove". 
+    #These are the players that will be allowed to use the chat room, these can be changed in game using "/gcm players add" #and "/gcm players remove". 
     allowedplayers:
-    \-
-    \#This is how the chat room will be formatted, %player% will output the players name, %nickname% will output their \#essentials nickname, %prefix% will output their PermissionsEX prefix and %suffix% will output their suffix.
+    -
+    #This is how the chat room will be formatted, %player% will output the players name, %nickname% will output their #essentials nickname, %prefix% will output their PermissionsEX prefix and %suffix% will output their suffix.
     formatting: '&1[&9B %player%&1] &f%message%'
     
 developer:
-    \#These are the players that will be allowed to use the chat room, these can be changed in game using "/gcm players add" \#and "/gcm players remove". 
+    #These are the players that will be allowed to use the chat room, these can be changed in game using "/gcm players add" #and "/gcm players remove". 
     allowedplayers:
-    \-
-    \#This is how the chat room will be formatted, %player% will output the players name, %nickname% will output their \#essentials nickname, %prefix% will output their PermissionsEX prefix and %suffix% will output their suffix.
+    -
+    #This is how the chat room will be formatted, %player% will output the players name, %nickname% will output their #essentials nickname, %prefix% will output their PermissionsEX prefix and %suffix% will output their suffix.
     formatting: '&6[%prefix% &eD %player%&6] &8<&c%message%&8>'
 ```
