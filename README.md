@@ -1,16 +1,16 @@
 # GlobalChatManager
 GlobalChatManager is a very configurable chat management plugin with the goal of being able to modify and change chat in any way you like.
 
-**Current Functions**
-- Custom Chat Rooms: *GlobalChatManager contains a system for creating and managing private chat rooms.*
-- Global Chat Formatting: *It also contains a system for formatting chat in any way including colors and PermissionsEX groups.*
-- Chat Censoring: *It also contains a working but limited chat censoring system that can be toggled for each individual player.*
+##Current Functions
+- **Custom Chat Rooms:** *GlobalChatManager contains a system for creating and managing private chat rooms.*
+- **Global Chat Formatting:** *It also contains a system for formatting chat in any way including colors and PermissionsEX groups.*
+- **Chat Censoring:** *It also contains a working but limited chat censoring system that can be toggled for each individual player.*
 
-**DEPENDENCIES**
-- PermissionsEX: *PermissionsEX is a hardcore permission system used by many servers.*
-- Essentials: *Essentials is one of the most used, most loved and most essential bukkit plugins.*
+##DEPENDENCIES
+- [PermissionsEX:](https://dev.bukkit.org/bukkit-plugins/permissionsex/) *PermissionsEX is a hardcore permission system used by many servers.*
+- [Essentials:](https://dev.bukkit.org/bukkit-plugins/permissionsex/) *Essentials is one of the most used, most loved and most essential bukkit plugins.*
 
-**Commands**
+##Commands
 The main command of GlobalChatManager is `/gcm`
 The syntax is as following:
 
@@ -25,9 +25,9 @@ The syntax is as following:
 - `/gcm <ChatRoom> <Message>` *Sends a message in specified chat room.*
 
 
-**Default Configuration**
+##Default Configuration
 ```
-\#This should always stay as false.
+#This should always stay as false.
 resetconfig: false
 
 censor:
