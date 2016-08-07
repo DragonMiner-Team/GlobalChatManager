@@ -1,0 +1,23 @@
+name: GlobalChatManager
+version: 1.2
+description: im funny.
+author: [HahaYouFell, Mafrans]
+main: Main
+#----COMMANDS----#
+commands:
+  gcm:
+    description: The main command of GCM.
+    usage: /<command> <type> [values...]
+
+#----PERMISSIONS----#
+permissions:
+  gcm.players:
+    description: Allows using "/gcm players".
+    default: op
+  gcm.players.add:
+    description: Allows adding players to a chat.
+    default: op
+  gcm.players.remove:
+    description: Allows removing players from a chat.
+    default: op
+  
