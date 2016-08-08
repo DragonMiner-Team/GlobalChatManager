@@ -201,6 +201,11 @@ public class Main extends JavaPlugin implements Listener
 
             if(args[0].equalsIgnoreCase("players"))
             {
+                if(!config.getBoolean("consoleonly") &&!(sender instanceof Player))
+                {
+                    sender.sendMessage(ChatColor.RED + "This command may only be executed in game.");
+                }
+
                 if(!config.getBoolean("consoleonly") &&!((Player) sender).hasPermission("gcm.players"))
                 {
                     ((Player) sender).sendMessage(ChatColor.RED + "You do not have permission to use this!");
