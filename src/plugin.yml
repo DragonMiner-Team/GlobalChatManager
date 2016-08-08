@@ -20,4 +20,10 @@ permissions:
   gcm.players.remove:
     description: Allows removing players from a chat.
     default: op
+  gcm.create:
+    description: Allows creating chats.
+    default: op
+  gcm.censor.add:
+    description: Allows adding words to the censor list.
+    default: op
   

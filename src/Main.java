@@ -40,6 +40,22 @@ public class Main extends JavaPlugin implements Listener
                 return false;
             }
 
+            if(args[0].equalsIgnoreCase("create"))
+            {
+                if(args.length < 3 || !sender.hasPermission("gcm.create"))
+                {
+                    return false;
+                }
+                
+                config.set(args[0].toLowerCase() + "allowedplayers", Arrays.asList(sender.getName()));
+                config.set(args[0].toLowerCase() + "formatting", StringUtils.join(ArrayUtils.subarray(args, 2, args.length)));
+                saveConfig();
+                
+                sender.sendMessage(ChatColor.AQUA + "Added Chat " + ChatColor.GREEN + util.capitalize(args[1]) + ChatColor.AQUA + ".");
+                sender.sendMessage(ChatColor.AQUA + "Set Chat Formatting to " + ChatColor.GREEN + StringUtils.join(ArrayUtils.subarray(args, 2, args.length)) + ChatColor.AQUA + ".");
+                return true;
+            }
+            
             if(args[0].equalsIgnoreCase("list"))
             {
                 sender.sendMessage(ChatColor.YELLOW + "List of all chat types:");
@@ -59,7 +75,16 @@ public class Main extends JavaPlugin implements Listener
             {
                 if(args.length != 1)
                 {
-                    return false;
+                    if(!(args[1].equalsIgnoreCase("add")) || args.length < 3 || !sender.hasPermission("gcm.censor.add"))
+                    {
+                        return false;
+                    }
+                    String word = StringUtils.join(ArrayUtils.subarray(args, 2, args.length));
+                    List<String> words = config.getStringList("censor.words");
+                    words.add(word);
+                    
+                    config.set("censor.words", words);
+                    saveConfig();
                 }
 
                 if(censorlist.contains((Player) sender))
