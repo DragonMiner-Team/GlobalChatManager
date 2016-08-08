@@ -26,4 +26,10 @@ permissions:
   gcm.censor.add:
     description: Allows adding words to the censor list.
     default: op
+  gcm.commandspy:
+    description: Allows using commandspy.
+    default: op
+  gcm.alerts:
+    description: Shows alerts for specified commands.
+    default: op
   

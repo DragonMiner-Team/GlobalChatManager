@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.PermissionGroup;
@@ -28,7 +30,50 @@ public class Main extends JavaPlugin implements Listener
     FileConfiguration       config      = plugin.getConfig();
     HashMap<Player, String> playerchats = new HashMap();
     List<Player>            censorlist  = new ArrayList();
+    List<Player>            cmdspylist  = new ArrayList();
     Util                    util;
+
+    @EventHandler
+    public void chatCommand(PlayerCommandPreprocessEvent e)
+    {
+        String       command   = e.getMessage().substring(1);
+        List<String> arguments = Arrays.asList(command.split(" "));
+        String       cmd       = arguments.get(0);
+        String[]     args      = (String[]) ArrayUtils.subarray(arguments.toArray(), 1, arguments.size());
+
+        for(String key : config.getKeys(false))
+        {
+            if(config.contains(key + ".command") && config.getString(key + ".command").equalsIgnoreCase(cmd))
+            {
+                getServer().dispatchCommand((CommandSender) e.getPlayer(),
+                                            "gcm " + key + " " + StringUtils.join(args, " "));
+                e.setCancelled(true);
+            }
+        }
+
+        for(final Player player : getServer().getOnlinePlayers())
+        {
+            if(!(player.getName().equals(player))
+                    && player.hasPermission("gcm.commandspy")
+                    && cmdspylist.contains(player))
+            {
+                player.sendMessage(util.colorize(config.getString("cmdspy.message")
+                                                       .replace("%player%", e.getPlayer().getName())
+                                                       .replace("%command%", e.getMessage())));
+            }
+
+            if(player.hasPermission("gcm.alerts"))
+            {
+                if(!(player.getName().equals(player))
+                        && config.getConfigurationSection("commands.alert").getKeys(false).contains(cmd))
+                {
+                    player.sendMessage(util.colorize(config.getString("commands.alert." + cmd)
+                                                           .replace("%player%", e.getPlayer().getName())
+                                                           .replace("%args%", StringUtils.join(args, " "))));
+                }
+            }
+        }
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
@@ -40,29 +85,57 @@ public class Main extends JavaPlugin implements Listener
                 return false;
             }
 
-            if(args[0].equalsIgnoreCase("create"))
+            if(args[0].equalsIgnoreCase("cmdspy"))
             {
-                if(args.length < 3 || !sender.hasPermission("gcm.create"))
+                if(args.length != 1)
                 {
                     return false;
                 }
-                
+
+                if(!cmdspylist.contains((Player) sender))
+                {
+                    cmdspylist.add((Player) sender);
+                    sender.sendMessage(ChatColor.AQUA + "Commandspy is now " + ChatColor.GREEN + "ON");
+                }
+                else
+                {
+                    cmdspylist.remove((Player) sender);
+                    sender.sendMessage(ChatColor.AQUA + "Commandspy is now " + ChatColor.RED + "OFF");
+                }
+            }
+
+            if(args[0].equalsIgnoreCase("create"))
+            {
+                if((args.length < 3) ||!sender.hasPermission("gcm.create"))
+                {
+                    return false;
+                }
+
                 config.set(args[0].toLowerCase() + "allowedplayers", Arrays.asList(sender.getName()));
-                config.set(args[0].toLowerCase() + "formatting", StringUtils.join(ArrayUtils.subarray(args, 2, args.length)));
+                config.set(args[0].toLowerCase() + "formatting",
+                           StringUtils.join(ArrayUtils.subarray(args, 2, args.length)));
                 saveConfig();
-                
-                sender.sendMessage(ChatColor.AQUA + "Added Chat " + ChatColor.GREEN + util.capitalize(args[1]) + ChatColor.AQUA + ".");
-                sender.sendMessage(ChatColor.AQUA + "Set Chat Formatting to " + ChatColor.GREEN + StringUtils.join(ArrayUtils.subarray(args, 2, args.length)) + ChatColor.AQUA + ".");
+                sender.sendMessage(ChatColor.AQUA + "Added Chat " + ChatColor.GREEN + util.capitalize(args[1])
+                                   + ChatColor.AQUA + ".");
+                sender.sendMessage(ChatColor.AQUA + "Set Chat Formatting to " + ChatColor.GREEN
+                                   + StringUtils.join(ArrayUtils.subarray(args,
+                                                                          2,
+                                                                          args.length)) + ChatColor.AQUA + ".");
+
                 return true;
             }
-            
+
             if(args[0].equalsIgnoreCase("list"))
             {
                 sender.sendMessage(ChatColor.YELLOW + "List of all chat types:");
 
                 for(final String chat : config.getKeys(false))
                 {
-                    if(!chat.equals("resetconfig"))
+                    if(!chat.equals("resetconfig")
+                            &&!chat.equals("cmdspy")
+                            &&!chat.equals("chat")
+                            &&!chat.equals("censor")
+                            &&!chat.equals("command"))
                     {
                         sender.sendMessage(ChatColor.GREEN + " - " + util.capitalize(chat));
                     }
@@ -75,14 +148,17 @@ public class Main extends JavaPlugin implements Listener
             {
                 if(args.length != 1)
                 {
-                    if(!(args[1].equalsIgnoreCase("add")) || args.length < 3 || !sender.hasPermission("gcm.censor.add"))
+                    if(!(args[1].equalsIgnoreCase("add"))
+                            || (args.length < 3)
+                            ||!sender.hasPermission("gcm.censor.add"))
                     {
                         return false;
                     }
-                    String word = StringUtils.join(ArrayUtils.subarray(args, 2, args.length));
+
+                    String       word  = StringUtils.join(ArrayUtils.subarray(args, 2, args.length));
                     List<String> words = config.getStringList("censor.words");
+
                     words.add(word);
-                    
                     config.set("censor.words", words);
                     saveConfig();
                 }
@@ -292,7 +368,12 @@ public class Main extends JavaPlugin implements Listener
             config.set("censor.message", "&bChat Censoring is %bool% &bactive.");
             config.set("censor.disclaimer",
                        "&7Note: Chat Censoring is not perfect and we cannot guarantee all words will be correctly censored.");
+            config.set("censor.command", "censor");
             config.set("censor.words", Arrays.asList("fuck", "shit", "hell", "..."));
+            config.set("cmdspy.message", "&7%player%&7: &7%command%");
+            config.set("cmdspy.command", "cmdspy");
+            config.set("commands.alert.gamemode", "&6%player% &6changed their gamemode to: &e%args%");
+            config.set("commands.alert.give", "&6%player% &6gave &e%args%");
 
             //
             config.set("chat.formatting", "&f<%prefix% &b%nickname% &f%suffix%&f> %message%");
@@ -300,10 +381,12 @@ public class Main extends JavaPlugin implements Listener
             //
             config.set("builder.allowedplayers", new ArrayList());
             config.set("builder.formatting", "&1[&9B %player%&1] &f%message%");
+            config.set("builder.command", "bchat");
 
             //
             config.set("developer.allowedplayers", new ArrayList());
             config.set("developer.formatting", "&6[&eD %player%&6] &8<&c%message%&8>");
+            config.set("developer.command", "dchat");
             saveConfig();
         }
     }
