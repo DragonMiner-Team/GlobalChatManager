@@ -15,7 +15,9 @@ The main command of GlobalChatManager is `/gcm`
 The syntax is as following:
 
 - `/gcm list` *Shows a list of all currently loaded chat rooms.*
+- `/gcm create <Name> <Formatting>` *Creates a chat room.*
 - `/gcm censor` *Toggles chat censoring for the command sender.*
+- `/gcm censor add <words with spaces>` *Adds a word to the censoring list.* (Requires permission *gcm.censor.add*)
 - `/gcm me` *Shows a list of your player name in different forms.*
 - `/gcm players` *Changes options for chat rooms* (Requires permission *gcm.players*)
 - `/gcm players hasPerms <Player> <ChatRoom>` *Returns true if player has permissions for said chat room.*
